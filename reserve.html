@@ -117,7 +117,6 @@
         <div class="oc-slots" id="slot-grid"></div>
         <div class="oc-slot-legend">
           <div class="oc-slot-legend__item"><div class="oc-slot-legend__dot oc-slot-legend__dot--open"></div><span data-en="Available" data-pt="Disponível">Available</span></div>
-          <div class="oc-slot-legend__item"><div class="oc-slot-legend__dot oc-slot-legend__dot--few"></div><span data-en="Few left" data-pt="Últimas">Few left</span></div>
           <div class="oc-slot-legend__item"><div class="oc-slot-legend__dot oc-slot-legend__dot--full"></div><span data-en="Full" data-pt="Esgotado">Full</span></div>
         </div>
         <div class="oc-wizard-btns">
@@ -166,8 +165,8 @@
 
         <div class="oc-hold-note">
           <span class="oc-hold-note__icon">&#9432;</span>
-          <span data-en="We hold your table for 15 minutes and email a confirmation. Parties of 7+ may be called to confirm."
-                data-pt="Reservamos a sua mesa por 15 minutos e enviamos confirmação por email. Grupos de 7+ podem ser contactados.">We hold your table for 15 minutes and email a confirmation. Parties of 7+ may be called to confirm.</span>
+          <span data-en="Parties of up to 4 are confirmed instantly by email. For parties of 5 or more, our team will call you to confirm."
+                data-pt="Grupos até 4 pessoas são confirmados de imediato por email. Para grupos de 5 ou mais, a nossa equipa liga para confirmar.">Parties of up to 4 are confirmed instantly by email. For parties of 5 or more, our team will call you to confirm.</span>
         </div>
         <div class="oc-wizard-btns">
           <button class="oc-wizard-back" data-step="2" data-en="Back" data-pt="Voltar">Back</button>
@@ -179,12 +178,12 @@
       <!-- ===== STEP 4: Confirmation ===== -->
       <div class="oc-wizard__step confirm-step" id="step-4">
         <div class="oc-confirm-icon">&#10003;</div>
-        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:36px;margin:0 0 12px;"
+        <h2 id="confirm-title" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:36px;margin:0 0 12px;"
             data-en="Table reserved" data-pt="Mesa reservada">Table reserved</h2>
-        <p style="font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:var(--muted);margin:0 auto 26px;max-width:430px;line-height:1.7;"
+        <p id="confirm-desc" style="font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:var(--muted);margin:0 auto 26px;max-width:430px;line-height:1.7;"
            data-en="A confirmation is on its way to your inbox. We look forward to welcoming you to ococas."
            data-pt="A confirmação está a caminho do seu email. Será um prazer recebê-lo no ococas.">A confirmation is on its way to your inbox. We look forward to welcoming you to ococas.</p>
-        <div class="oc-confirm-ref">
+        <div class="oc-confirm-ref" id="confirm-ref-box">
           <span class="oc-confirm-ref__label" data-en="Reservation" data-pt="Reserva">Reservation</span>
           <span class="oc-confirm-ref__code" id="ref-code"></span>
         </div>
@@ -224,7 +223,7 @@ const S = {
 };
 
 const LOCS = [
-  { k:'ococas',  name:'Ococas',     area:{ en:'Príncipe Real', pt:'Príncipe Real' } },
+  { k:'ococas',  name:'Ococas',     area:{ en:'Baixa',        pt:'Baixa' } },
   { k:'ococas2', name:'Ococas II',  area:{ en:'Chiado',        pt:'Chiado' } }
 ];
 const OCC = [
@@ -302,8 +301,8 @@ function renderGuestsUI() {
   document.getElementById('guests-val').textContent = S.guests >= 8 ? '8+' : S.guests;
   document.getElementById('dec-btn').disabled = S.guests <= 1;
   document.getElementById('inc-btn').disabled = S.guests >= 8;
-  document.getElementById('guests-help').textContent = S.guests >= 8
-    ? (lang==='pt'?'Para grupos maiores, ligue-nos.':'For larger parties, please call us.')
+  document.getElementById('guests-help').textContent = S.guests > 4
+    ? (lang==='pt'?'Para grupos de 5 ou mais, ligamos para confirmar a reserva.':'For parties of 5 or more, we will call you to confirm.')
     : (lang==='pt'?'Pode alterar a qualquer momento.':'You can change this at any time.');
 }
 
@@ -351,16 +350,15 @@ function renderServiceTabs() {
 
 function renderSlots() {
   const times = S.service==='lunch'
-    ? ['12:30','13:00','13:30','14:00','14:30']
-    : ['19:00','19:30','20:00','20:30','21:00','21:30','22:00'];
-  const noteMap = { full:{en:'Full',pt:'Esgotado'}, few:{en:'Few left',pt:'Últimas'}, open:{en:'',pt:''}, na:{en:'',pt:''} };
+    ? ['11:00','12:00','13:00','14:00','15:00']
+    : ['16:00','17:00','18:00','19:00','20:00','21:00'];
+  const noteMap = { full:{en:'Full',pt:'Esgotado'}, open:{en:'',pt:''}, na:{en:'',pt:''} };
   const lang = S.lang;
   document.getElementById('slot-grid').innerHTML = times.map(time => {
     const st = slotStatus(S.date, S.guests, time, S.location);
     const sel = S.slot===time;
     let cls = 'oc-slot';
     if (st==='full') cls += ' full';
-    else if (st==='few') cls += ' few';
     if (sel) cls += ' active';
     return `<button class="${cls}" data-time="${time}" data-status="${st}">
       <span class="oc-slot__time">${time}</span>
@@ -385,6 +383,27 @@ function renderOccasions() {
   });
 }
 
+function renderConfirmStep() {
+  const lang = S.lang;
+  const bigParty = S.guests > 4;
+  const title = document.getElementById('confirm-title');
+  const desc = document.getElementById('confirm-desc');
+  const refBox = document.getElementById('confirm-ref-box');
+  if (bigParty) {
+    title.textContent = lang==='pt' ? 'Pedido recebido' : 'Request received';
+    desc.textContent = lang==='pt'
+      ? 'Obrigado pelo seu pedido. Como é um grupo de 5 ou mais pessoas, a nossa equipa vai ligar-lhe em breve para confirmar a mesa.'
+      : 'Thank you for your request. As your party is 5 or more, our team will call you shortly to confirm your table.';
+    refBox.style.display = 'none';
+  } else {
+    title.textContent = lang==='pt' ? 'Mesa reservada' : 'Table reserved';
+    desc.textContent = lang==='pt'
+      ? 'A confirmação está a caminho do seu email. Será um prazer recebê-lo no ococas.'
+      : 'A confirmation is on its way to your inbox. We look forward to welcoming you to ococas.';
+    refBox.style.display = '';
+  }
+}
+
 function updateRecaps() {
   const el2 = document.getElementById('recap-text-2');
   const el3 = document.getElementById('recap-text-3');
@@ -404,6 +423,7 @@ function applyLangToWizard() {
   renderSlots();
   renderOccasions();
   updateRecaps();
+  renderConfirmStep();
 }
 
 // ===== EVENTS =====
@@ -453,6 +473,7 @@ document.getElementById('step3-cta').addEventListener('click', () => {
 
   document.getElementById('ref-code').textContent = ref;
   updateRecaps();
+  renderConfirmStep();
   goStep(4);
 });
 

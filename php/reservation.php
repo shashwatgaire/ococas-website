@@ -2,16 +2,17 @@
 /**
  * ococas reservation handler
  * Receives form data from reserve.html and sends a notification email.
- * Configure $NOTIFY_EMAIL below with the restaurant's email address.
+ * Configure NOTIFY_EMAILS below with the restaurant's notification addresses.
  */
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 // ---- Configuration ----
-define('NOTIFY_EMAIL', 'reservas@ococas.pt');   // restaurant inbox
+define('NOTIFY_EMAILS', ['reservations@ococas.com', 'shashwatgaire0@gmail.com', 'ococas1@gmail.com']); // restaurant inbox + owner copies
 define('FROM_EMAIL',   'noreply@ococas.pt');     // sender (must be valid on your cPanel domain)
 define('SITE_NAME',    'ococas');
+define('CALL_THRESHOLD', 4); // parties larger than this are called to confirm instead of auto-accepted
 
 // ---- Only accept POST ----
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -44,8 +45,11 @@ if (!$name || !filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL) || !$pho
     exit;
 }
 
-// ---- Build notification email (to restaurant) ----
-$subject = "[{$ref}] New reservation — {$name} · {$location} · {$date} · {$slot}";
+$needsCall = $guests > CALL_THRESHOLD;
+
+// ---- Build notification email (to restaurant + owner) ----
+$subjectTag = $needsCall ? 'CALL REQUIRED' : $ref;
+$subject = "[{$subjectTag}] New reservation — {$name} · {$location} · {$date} · {$slot}";
 
 $body = "New reservation at " . SITE_NAME . "\n\n";
 $body .= "Reference : {$ref}\n";
@@ -53,7 +57,8 @@ $body .= "Restaurant : {$location}\n";
 $body .= "Date       : {$date}\n";
 $body .= "Service    : {$service}\n";
 $body .= "Time       : {$slot}\n";
-$body .= "Guests     : {$guests}\n\n";
+$body .= "Guests     : {$guests}\n";
+$body .= "Status     : " . ($needsCall ? "NEEDS PHONE CONFIRMATION (party over " . CALL_THRESHOLD . ")" : "Auto-accepted") . "\n\n";
 $body .= "Guest name  : {$name}\n";
 $body .= "Email       : " . ($_POST['email'] ?? '') . "\n";
 $body .= "Phone       : {$phone}\n";
@@ -64,22 +69,39 @@ $headers  = "From: " . SITE_NAME . " <" . FROM_EMAIL . ">\r\n";
 $headers .= "Reply-To: {$name} <" . ($_POST['email'] ?? '') . ">\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 
-mail(NOTIFY_EMAIL, $subject, $body, $headers);
+foreach (NOTIFY_EMAILS as $notifyAddress) {
+    mail($notifyAddress, $subject, $body, $headers);
+}
 
 // ---- Confirmation email (to guest) ----
-$confirmSubject = "Your reservation at ococas — {$ref}";
-$confirmBody = "Dear {$name},\n\n";
-$confirmBody .= "Your table at ococas is confirmed. Here are the details:\n\n";
-$confirmBody .= "Reference  : {$ref}\n";
-$confirmBody .= "Restaurant : {$location}\n";
-$confirmBody .= "Date       : {$date}\n";
-$confirmBody .= "Time       : {$slot}\n";
-$confirmBody .= "Guests     : {$guests}\n\n";
-$confirmBody .= "We hold your table for 15 minutes. If you need to cancel or change your reservation,\n";
-$confirmBody .= "please call us at +351 21 100 0000 or reply to this email.\n\n";
-$confirmBody .= "We look forward to welcoming you.\n\n";
-$confirmBody .= "— The team at ococas\n";
-$confirmBody .= "Rua da Escola Politécnica 27, Príncipe Real, Lisboa\n";
+if ($needsCall) {
+    $confirmSubject = "Your reservation request at ococas — {$ref}";
+    $confirmBody = "Dear {$name},\n\n";
+    $confirmBody .= "Thank you for your reservation request. Here are the details:\n\n";
+    $confirmBody .= "Reference  : {$ref}\n";
+    $confirmBody .= "Restaurant : {$location}\n";
+    $confirmBody .= "Date       : {$date}\n";
+    $confirmBody .= "Time       : {$slot}\n";
+    $confirmBody .= "Guests     : {$guests}\n\n";
+    $confirmBody .= "As your party is larger than " . CALL_THRESHOLD . ", our team will call you at {$phone} shortly to confirm your table.\n\n";
+    $confirmBody .= "We look forward to welcoming you.\n\n";
+    $confirmBody .= "— The team at ococas\n";
+    $confirmBody .= "R. dos Correeiros 177, 1100-571 Lisboa, Portugal\n";
+} else {
+    $confirmSubject = "Your reservation at ococas — {$ref}";
+    $confirmBody = "Dear {$name},\n\n";
+    $confirmBody .= "Your table at ococas is confirmed. Here are the details:\n\n";
+    $confirmBody .= "Reference  : {$ref}\n";
+    $confirmBody .= "Restaurant : {$location}\n";
+    $confirmBody .= "Date       : {$date}\n";
+    $confirmBody .= "Time       : {$slot}\n";
+    $confirmBody .= "Guests     : {$guests}\n\n";
+    $confirmBody .= "We hold your table for 15 minutes. If you need to cancel or change your reservation,\n";
+    $confirmBody .= "please call us at +351 920 038 770 or reply to this email.\n\n";
+    $confirmBody .= "We look forward to welcoming you.\n\n";
+    $confirmBody .= "— The team at ococas\n";
+    $confirmBody .= "R. dos Correeiros 177, 1100-571 Lisboa, Portugal\n";
+}
 
 $confirmHeaders  = "From: " . SITE_NAME . " <" . FROM_EMAIL . ">\r\n";
 $confirmHeaders .= "X-Mailer: PHP/" . phpversion();

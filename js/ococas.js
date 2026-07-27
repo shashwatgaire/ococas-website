@@ -52,19 +52,6 @@ function initNav() {
     btn.addEventListener('click', () => setLang(btn.dataset.lang));
   });
 
-  // Newsletter
-  const newsForm = document.querySelector('.oc-footer__newsletter');
-  if (newsForm) {
-    newsForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const input = newsForm.querySelector('input');
-      if (input && input.value.includes('@')) {
-        input.value = '';
-        input.placeholder = 'Thank you!';
-      }
-    });
-  }
-
   applyLang(getLang());
 }
 
@@ -80,8 +67,7 @@ function slotStatus(iso, guests, time, loc) {
   if (!iso) return 'na';
   const r = seed(iso + '|' + time + '|' + (loc || ''));
   const need = 0.30 + (guests - 2) * 0.045;
-  if (r < need * 0.55) return 'full';
-  if (r < need) return 'few';
+  if (r < need) return 'full';
   return 'open';
 }
 function randRef() {
