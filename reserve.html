@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reserve — ococas</title>
+  <meta name="description" content="Reserve a table at ococas, Lisbon.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/ococas.css">
+  <style>
+    .res-page {
+      padding: clamp(120px,15vw,170px) 24px clamp(70px,9vw,110px);
+      background: radial-gradient(120% 80% at 50% 0%, #0d1830, var(--bg) 65%);
+      min-height: 100vh;
+    }
+    .res-intro { text-align:center; max-width:640px; margin: 0 auto 14px; }
+    .res-intro .oc-kicker { margin-bottom:0; }
+    .res-intro h1 {
+      font-family:'Cormorant Garamond',Georgia,serif; font-weight:500;
+      font-size:clamp(38px,5.5vw,64px); line-height:1.02; margin:14px 0 10px;
+    }
+    .res-intro p { font-family:'Jost',sans-serif; font-weight:300; font-size:15px; color:var(--muted); line-height:1.7; }
+    .confirm-step { text-align:center; padding:10px 0; }
+    .oc-wizard__body > .oc-wizard__step > * + * { margin-top: 0; }
+  </style>
+</head>
+<body>
+
+<nav class="oc-nav">
+  <a href="index.html" class="oc-nav__logo">
+    <img src="assets/logo-white.png" alt="ococas">
+    <span class="oc-nav__wordmark">ococas</span>
+  </a>
+  <div class="oc-nav__links">
+    <a href="index.html" class="oc-nav__link" data-en="Home" data-pt="Início">Home</a>
+    <a href="about.html" class="oc-nav__link" data-en="Restaurant" data-pt="Restaurante">Restaurant</a>
+    <a href="menus.html" class="oc-nav__link" data-en="Menus" data-pt="Menus">Menus</a>
+    <a href="gallery.html" class="oc-nav__link" data-en="Gallery" data-pt="Galeria">Gallery</a>
+    <a href="visit.html" class="oc-nav__link" data-en="Visit" data-pt="Visite">Visit</a>
+  </div>
+  <div class="oc-nav__right">
+    <div class="oc-nav__lang">
+      <button data-lang="en" class="active">EN</button>
+      <span class="oc-nav__lang-sep">/</span>
+      <button data-lang="pt">PT</button>
+    </div>
+    <a href="reserve.html" class="oc-btn-reserve filled" data-en="Reserve" data-pt="Reservar">Reserve</a>
+  </div>
+  <button class="oc-nav__burger" aria-label="Menu">&#9776;</button>
+</nav>
+
+<div class="oc-nav__mobile-menu">
+  <button class="oc-nav__mobile-close">&#10005;</button>
+  <a href="about.html" class="oc-nav__link" data-en="Restaurant" data-pt="Restaurante">Restaurant</a>
+  <a href="menus.html" class="oc-nav__link" data-en="Menus" data-pt="Menus">Menus</a>
+  <a href="gallery.html" class="oc-nav__link" data-en="Gallery" data-pt="Galeria">Gallery</a>
+  <a href="visit.html" class="oc-nav__link" data-en="Visit" data-pt="Visite">Visit</a>
+</div>
+
+<section class="res-page">
+  <div class="res-intro">
+    <div class="oc-kicker" data-en="Reservations" data-pt="Reservas">Reservations</div>
+    <h1 data-en="Reserve a table" data-pt="Reserve a sua mesa">Reserve a table</h1>
+    <p data-en="It takes less than a minute. We will guide you one step at a time." data-pt="Demora menos de um minuto. Guiamos um passo de cada vez.">It takes less than a minute. We will guide you one step at a time.</p>
+  </div>
+
+  <div class="oc-wizard">
+    <!-- Progress Header -->
+    <div class="oc-wizard__header">
+      <div class="oc-wizard__step-row">
+        <span class="oc-wizard__step-label" id="step-label">When</span>
+        <span class="oc-wizard__step-count" id="step-count">Step 1 of 4</span>
+      </div>
+      <div class="oc-wizard__progress-track">
+        <div class="oc-wizard__progress-bar" id="progress-bar" style="width:25%;"></div>
+      </div>
+    </div>
+
+    <div class="oc-wizard__body">
+
+      <!-- ===== STEP 1: Location + Guests + Date ===== -->
+      <div class="oc-wizard__step active" id="step-1">
+        <div class="oc-wizard__q" data-en="Which ococas?" data-pt="Qual ococas?">Which ococas?</div>
+        <div class="oc-loc-grid" id="loc-grid"></div>
+
+        <div class="oc-wizard__q" data-en="How many guests?" data-pt="Quantas pessoas?">How many guests?</div>
+        <div class="oc-stepper">
+          <button class="oc-stepper__btn" id="dec-btn" aria-label="Decrease guests">&#8722;</button>
+          <div class="oc-stepper__val" id="guests-val">2</div>
+          <button class="oc-stepper__btn" id="inc-btn" aria-label="Increase guests">&#43;</button>
+        </div>
+        <div class="oc-stepper__help" id="guests-help"></div>
+
+        <div class="oc-wizard__q" data-en="Which day?" data-pt="Que dia?">Which day?</div>
+        <div class="oc-week-nav">
+          <button class="oc-week-nav__btn" id="prev-week-btn" disabled>&#8592;</button>
+          <span class="oc-week-nav__month" id="month-label"></span>
+          <button class="oc-week-nav__btn" id="next-week-btn">&#8594;</button>
+        </div>
+        <div class="oc-day-grid" id="day-grid"></div>
+
+        <button class="oc-wizard-cta" id="step1-cta" disabled
+                data-en="Continue" data-pt="Continuar">Continue</button>
+      </div>
+
+      <!-- ===== STEP 2: Time ===== -->
+      <div class="oc-wizard__step" id="step-2">
+        <div class="oc-recap" id="recap-2">
+          <span class="oc-recap__text" id="recap-text-2"></span>
+          <button class="oc-recap__edit" data-step="1" data-en="Edit" data-pt="Alterar">Edit</button>
+        </div>
+
+        <div class="oc-wizard__q" data-en="Pick a time" data-pt="Escolha a hora">Pick a time</div>
+        <div class="oc-service-tabs" id="service-tabs"></div>
+        <div class="oc-slots" id="slot-grid"></div>
+        <div class="oc-slot-legend">
+          <div class="oc-slot-legend__item"><div class="oc-slot-legend__dot oc-slot-legend__dot--open"></div><span data-en="Available" data-pt="Disponível">Available</span></div>
+          <div class="oc-slot-legend__item"><div class="oc-slot-legend__dot oc-slot-legend__dot--few"></div><span data-en="Few left" data-pt="Últimas">Few left</span></div>
+          <div class="oc-slot-legend__item"><div class="oc-slot-legend__dot oc-slot-legend__dot--full"></div><span data-en="Full" data-pt="Esgotado">Full</span></div>
+        </div>
+        <div class="oc-wizard-btns">
+          <button class="oc-wizard-back" data-step="1" data-en="Back" data-pt="Voltar">Back</button>
+          <button class="oc-wizard-next" id="step2-cta" disabled
+                  data-en="Continue" data-pt="Continuar">Continue</button>
+        </div>
+      </div>
+
+      <!-- ===== STEP 3: Details ===== -->
+      <div class="oc-wizard__step" id="step-3">
+        <div class="oc-recap" id="recap-3">
+          <span class="oc-recap__text" id="recap-text-3"></span>
+          <button class="oc-recap__edit" data-step="2" data-en="Edit" data-pt="Alterar">Edit</button>
+        </div>
+
+        <form id="reservation-form" style="display:grid;gap:18px;">
+          <div class="oc-form-field">
+            <label class="oc-form-label" for="f-name" data-en="Full name" data-pt="Nome completo">Full name</label>
+            <input class="oc-form-input" id="f-name" type="text" autocomplete="name"
+                   data-ph-en="Your name" data-ph-pt="O seu nome" placeholder="Your name" required>
+          </div>
+          <div class="oc-form-grid-2">
+            <div class="oc-form-field">
+              <label class="oc-form-label" for="f-email" data-en="Email" data-pt="Email">Email</label>
+              <input class="oc-form-input" id="f-email" type="email" autocomplete="email"
+                     data-ph-en="you@email.com" data-ph-pt="voce@email.com" placeholder="you@email.com" required>
+            </div>
+            <div class="oc-form-field">
+              <label class="oc-form-label" for="f-phone" data-en="Phone" data-pt="Telefone">Phone</label>
+              <input class="oc-form-input" id="f-phone" type="tel" autocomplete="tel"
+                     data-ph-en="+351 …" data-ph-pt="+351 …" placeholder="+351 …" required>
+            </div>
+          </div>
+          <div class="oc-form-field">
+            <div class="oc-form-label" data-en="Occasion" data-pt="Ocasião">Occasion</div>
+            <div class="oc-occ-chips" id="occ-chips"></div>
+          </div>
+          <div class="oc-form-field">
+            <label class="oc-form-label" for="f-notes" data-en="Special requests (optional)" data-pt="Pedidos especiais (opcional)">Special requests (optional)</label>
+            <textarea class="oc-form-input" id="f-notes" rows="2" style="resize:vertical;"
+                      data-ph-en="Allergies, seating, celebrations…" data-ph-pt="Alergias, mesa, celebrações…"
+                      placeholder="Allergies, seating, celebrations…"></textarea>
+          </div>
+        </form>
+
+        <div class="oc-hold-note">
+          <span class="oc-hold-note__icon">&#9432;</span>
+          <span data-en="We hold your table for 15 minutes and email a confirmation. Parties of 7+ may be called to confirm."
+                data-pt="Reservamos a sua mesa por 15 minutos e enviamos confirmação por email. Grupos de 7+ podem ser contactados.">We hold your table for 15 minutes and email a confirmation. Parties of 7+ may be called to confirm.</span>
+        </div>
+        <div class="oc-wizard-btns">
+          <button class="oc-wizard-back" data-step="2" data-en="Back" data-pt="Voltar">Back</button>
+          <button class="oc-wizard-next" id="step3-cta"
+                  data-en="Confirm reservation" data-pt="Confirmar reserva">Confirm reservation</button>
+        </div>
+      </div>
+
+      <!-- ===== STEP 4: Confirmation ===== -->
+      <div class="oc-wizard__step confirm-step" id="step-4">
+        <div class="oc-confirm-icon">&#10003;</div>
+        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:36px;margin:0 0 12px;"
+            data-en="Table reserved" data-pt="Mesa reservada">Table reserved</h2>
+        <p style="font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:var(--muted);margin:0 auto 26px;max-width:430px;line-height:1.7;"
+           data-en="A confirmation is on its way to your inbox. We look forward to welcoming you to ococas."
+           data-pt="A confirmação está a caminho do seu email. Será um prazer recebê-lo no ococas.">A confirmation is on its way to your inbox. We look forward to welcoming you to ococas.</p>
+        <div class="oc-confirm-ref">
+          <span class="oc-confirm-ref__label" data-en="Reservation" data-pt="Reserva">Reservation</span>
+          <span class="oc-confirm-ref__code" id="ref-code"></span>
+        </div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;color:var(--gold2);margin-bottom:32px;" id="recap-full"></div>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <button class="oc-btn oc-btn--ghost" id="another-btn" style="font-size:12px;padding:14px 30px;"
+                  data-en="Make another" data-pt="Nova reserva">Make another</button>
+          <a href="index.html" class="oc-btn oc-btn--ghost" style="font-size:12px;padding:14px 30px;"
+             data-en="Back to home" data-pt="Voltar ao início">Back to home</a>
+        </div>
+      </div>
+
+    </div><!-- /wizard body -->
+  </div><!-- /wizard -->
+</section>
+
+<footer class="oc-footer--compact">
+  <div class="oc-footer__inner">
+    <a href="index.html" class="oc-footer__logo">
+      <img src="assets/logo-white.png" alt="ococas">
+      <span class="oc-footer__wordmark">ococas</span>
+    </a>
+    <span data-en="© 2026 ococas — All rights reserved" data-pt="© 2026 ococas — Todos os direitos reservados">© 2026 ococas — All rights reserved</span>
+    <span data-en="Made in Lisbon" data-pt="Feito em Lisboa">Made in Lisbon</span>
+  </div>
+</footer>
+
+<script src="js/ococas.js"></script>
+<script>
+// ===== STATE =====
+const S = {
+  step: 1, lang: 'en',
+  location: 'ococas', guests: 2,
+  weekOffset: 0, date: null,
+  service: 'dinner', slot: null,
+  occasion: 'none'
+};
+
+const LOCS = [
+  { k:'ococas',  name:'Ococas',     area:{ en:'Príncipe Real', pt:'Príncipe Real' } },
+  { k:'ococas2', name:'Ococas II',  area:{ en:'Chiado',        pt:'Chiado' } }
+];
+const OCC = [
+  { k:'none',        en:'None',        pt:'Nenhuma'   },
+  { k:'birthday',    en:'Birthday',    pt:'Aniversário'},
+  { k:'anniversary', en:'Anniversary', pt:'Bodas'     },
+  { k:'business',    en:'Business',    pt:'Negócios'  },
+  { k:'celebration', en:'Celebration', pt:'Celebração'}
+];
+
+const DOW_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DOW_PT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const MON_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MON_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MON_SH_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MON_SH_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+const STEP_LABELS = {
+  en: ['When','Time','Details','Done'],
+  pt: ['Quando','Hora','Dados','Concluído']
+};
+
+// ===== HELPERS =====
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const dt = new Date(iso + 'T00:00:00');
+  const lang = S.lang;
+  return (lang==='pt'?DOW_PT:DOW_EN)[dt.getDay()] + ', ' + dt.getDate() + ' ' + (lang==='pt'?MON_SH_PT:MON_SH_EN)[dt.getMonth()];
+}
+function guestWord(n) {
+  const lang = S.lang;
+  return lang==='pt' ? (n===1?'pessoa':'pessoas') : (n===1?'guest':'guests');
+}
+function getLocName(k) {
+  return (LOCS.find(l=>l.k===k)||LOCS[0]).name;
+}
+function recapShort() {
+  const g = (S.guests>=8?'8+':S.guests) + ' ' + guestWord(S.guests);
+  return getLocName(S.location) + ' · ' + fmtDate(S.date) + ' · ' + g;
+}
+function recapFull() {
+  return recapShort() + (S.slot ? ' · ' + S.slot : '');
+}
+
+// ===== STEP MANAGEMENT =====
+function goStep(n) {
+  document.getElementById('step-' + S.step).classList.remove('active');
+  S.step = n;
+  document.getElementById('step-' + S.step).classList.add('active');
+  updateProgress();
+  applyLangToWizard();
+}
+function updateProgress() {
+  const labels = STEP_LABELS[S.lang];
+  document.getElementById('step-label').textContent = labels[S.step - 1];
+  document.getElementById('step-count').textContent = (S.lang==='pt'?'Passo ':'Step ') + S.step + (S.lang==='pt'?' de 4':' of 4');
+  document.getElementById('progress-bar').style.width = (S.step/4*100) + '%';
+}
+
+// ===== RENDER =====
+function renderLocGrid() {
+  const lang = S.lang;
+  document.getElementById('loc-grid').innerHTML = LOCS.map(L => `
+    <button class="oc-loc-btn${S.location===L.k?' active':''}" data-loc="${L.k}">
+      <span class="oc-loc-btn__name">${L.name}</span>
+      <span class="oc-loc-btn__area">${L.area[lang]}</span>
+    </button>`).join('');
+  document.querySelectorAll('.oc-loc-btn').forEach(btn => {
+    btn.addEventListener('click', () => { S.location = btn.dataset.loc; S.slot = null; renderLocGrid(); renderSlots(); });
+  });
+}
+
+function renderGuestsUI() {
+  const lang = S.lang;
+  document.getElementById('guests-val').textContent = S.guests >= 8 ? '8+' : S.guests;
+  document.getElementById('dec-btn').disabled = S.guests <= 1;
+  document.getElementById('inc-btn').disabled = S.guests >= 8;
+  document.getElementById('guests-help').textContent = S.guests >= 8
+    ? (lang==='pt'?'Para grupos maiores, ligue-nos.':'For larger parties, please call us.')
+    : (lang==='pt'?'Pode alterar a qualquer momento.':'You can change this at any time.');
+}
+
+function renderWeek() {
+  const lang = S.lang;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const base = new Date(today); base.setDate(today.getDate() + S.weekOffset * 7);
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const dt = new Date(base); dt.setDate(base.getDate() + i);
+    const iso = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
+    days.push({ iso, num: dt.getDate(), dow: (lang==='pt'?DOW_PT:DOW_EN)[dt.getDay()], sel: iso===S.date });
+  }
+  const lastDt = new Date(base); lastDt.setDate(base.getDate()+6);
+  const fm = base.getMonth(), lm = lastDt.getMonth();
+  const monLabel = fm===lm
+    ? (lang==='pt'?MON_PT:MON_EN)[fm] + ' ' + base.getFullYear()
+    : (lang==='pt'?MON_SH_PT:MON_SH_EN)[fm] + ' – ' + (lang==='pt'?MON_SH_PT:MON_SH_EN)[lm] + ' ' + lastDt.getFullYear();
+  document.getElementById('month-label').textContent = monLabel;
+  document.getElementById('prev-week-btn').disabled = S.weekOffset <= 0;
+  document.getElementById('next-week-btn').disabled = S.weekOffset >= 3;
+  document.getElementById('day-grid').innerHTML = days.map(d => `
+    <button class="oc-day-btn${d.sel?' active':''}" data-iso="${d.iso}">
+      <span class="oc-day-btn__dow">${d.dow}</span>
+      <span class="oc-day-btn__num">${d.num}</span>
+    </button>`).join('');
+  document.querySelectorAll('.oc-day-btn').forEach(btn => {
+    btn.addEventListener('click', () => { S.date = btn.dataset.iso; S.slot = null; renderWeek(); updateStep1Cta(); renderSlots(); });
+  });
+}
+
+function updateStep1Cta() {
+  document.getElementById('step1-cta').disabled = !S.date;
+}
+
+function renderServiceTabs() {
+  const lang = S.lang;
+  const tabs = [ {k:'lunch',en:'Lunch',pt:'Almoço'}, {k:'dinner',en:'Dinner',pt:'Jantar'} ];
+  document.getElementById('service-tabs').innerHTML = tabs.map(t => `
+    <button class="oc-tab${S.service===t.k?' active':''}" data-svc="${t.k}">${t[lang]}</button>`).join('');
+  document.querySelectorAll('#service-tabs .oc-tab').forEach(btn => {
+    btn.addEventListener('click', () => { S.service = btn.dataset.svc; S.slot = null; renderServiceTabs(); renderSlots(); updateStep2Cta(); });
+  });
+}
+
+function renderSlots() {
+  const times = S.service==='lunch'
+    ? ['12:30','13:00','13:30','14:00','14:30']
+    : ['19:00','19:30','20:00','20:30','21:00','21:30','22:00'];
+  const noteMap = { full:{en:'Full',pt:'Esgotado'}, few:{en:'Few left',pt:'Últimas'}, open:{en:'',pt:''}, na:{en:'',pt:''} };
+  const lang = S.lang;
+  document.getElementById('slot-grid').innerHTML = times.map(time => {
+    const st = slotStatus(S.date, S.guests, time, S.location);
+    const sel = S.slot===time;
+    let cls = 'oc-slot';
+    if (st==='full') cls += ' full';
+    else if (st==='few') cls += ' few';
+    if (sel) cls += ' active';
+    return `<button class="${cls}" data-time="${time}" data-status="${st}">
+      <span class="oc-slot__time">${time}</span>
+      <span class="oc-slot__note">${noteMap[st][lang]}</span>
+    </button>`;
+  }).join('');
+  document.querySelectorAll('.oc-slot:not(.full)').forEach(btn => {
+    btn.addEventListener('click', () => { S.slot = btn.dataset.time; renderSlots(); updateStep2Cta(); });
+  });
+}
+
+function updateStep2Cta() {
+  document.getElementById('step2-cta').disabled = !S.slot;
+}
+
+function renderOccasions() {
+  const lang = S.lang;
+  document.getElementById('occ-chips').innerHTML = OCC.map(o => `
+    <button class="oc-occ-chip${S.occasion===o.k?' active':''}" data-occ="${o.k}">${o[lang]}</button>`).join('');
+  document.querySelectorAll('.oc-occ-chip').forEach(btn => {
+    btn.addEventListener('click', () => { S.occasion = btn.dataset.occ; renderOccasions(); });
+  });
+}
+
+function updateRecaps() {
+  const el2 = document.getElementById('recap-text-2');
+  const el3 = document.getElementById('recap-text-3');
+  const rf = document.getElementById('recap-full');
+  if (el2) el2.textContent = recapShort();
+  if (el3) el3.textContent = recapFull();
+  if (rf) rf.textContent = recapFull();
+}
+
+// ===== APPLY LANG TO DYNAMIC WIZARD CONTENT =====
+function applyLangToWizard() {
+  updateProgress();
+  renderLocGrid();
+  renderGuestsUI();
+  renderWeek();
+  renderServiceTabs();
+  renderSlots();
+  renderOccasions();
+  updateRecaps();
+}
+
+// ===== EVENTS =====
+document.getElementById('dec-btn').addEventListener('click', () => {
+  if (S.guests > 1) { S.guests--; S.slot = null; renderGuestsUI(); renderSlots(); }
+});
+document.getElementById('inc-btn').addEventListener('click', () => {
+  if (S.guests < 8) { S.guests++; S.slot = null; renderGuestsUI(); renderSlots(); }
+});
+document.getElementById('prev-week-btn').addEventListener('click', () => {
+  if (S.weekOffset > 0) { S.weekOffset--; renderWeek(); }
+});
+document.getElementById('next-week-btn').addEventListener('click', () => {
+  if (S.weekOffset < 3) { S.weekOffset++; renderWeek(); }
+});
+document.getElementById('step1-cta').addEventListener('click', () => {
+  if (!S.date) return; updateRecaps(); goStep(2);
+});
+document.getElementById('step2-cta').addEventListener('click', () => {
+  if (!S.slot) return; updateRecaps(); goStep(3);
+});
+
+document.getElementById('step3-cta').addEventListener('click', () => {
+  const name  = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  if (!name || !email || !phone) {
+    document.getElementById('reservation-form').reportValidity(); return;
+  }
+  // Send to PHP handler
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('phone', phone);
+  formData.append('location', getLocName(S.location));
+  formData.append('date', S.date);
+  formData.append('service', S.service);
+  formData.append('slot', S.slot);
+  formData.append('guests', S.guests);
+  formData.append('occasion', S.occasion);
+  formData.append('notes', document.getElementById('f-notes').value.trim());
+  const ref = randRef();
+  formData.append('ref', ref);
+
+  fetch('php/reservation.php', { method:'POST', body:formData })
+    .catch(() => {}); // Fire-and-forget; confirmation shows regardless
+
+  document.getElementById('ref-code').textContent = ref;
+  updateRecaps();
+  goStep(4);
+});
+
+document.getElementById('another-btn').addEventListener('click', () => {
+  S.step = 1; S.date = null; S.slot = null;
+  S.occasion = 'none'; S.guests = 2; S.weekOffset = 0;
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-email').value = '';
+  document.getElementById('f-phone').value = '';
+  document.getElementById('f-notes').value = '';
+  document.getElementById('step-4').classList.remove('active');
+  document.getElementById('step-1').classList.add('active');
+  applyLangToWizard();
+  updateStep1Cta();
+});
+
+// Recap edit buttons and back buttons
+document.querySelectorAll('[data-step]').forEach(btn => {
+  btn.addEventListener('click', () => goStep(parseInt(btn.dataset.step)));
+});
+
+// ===== LANGUAGE HOOK =====
+window.onLangChange = function(lang) {
+  S.lang = lang;
+  applyLangToWizard();
+};
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  S.lang = getLang();
+  applyLangToWizard();
+  updateStep1Cta();
+  updateStep2Cta();
+});
+</script>
+</body>
+</html>

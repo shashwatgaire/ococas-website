@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menus — ococas</title>
+  <meta name="description" content="Food, wine and drinks menus at ococas, Lisbon.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/ococas.css">
+</head>
+<body>
+
+<nav class="oc-nav">
+  <a href="index.html" class="oc-nav__logo">
+    <img src="assets/logo-white.png" alt="ococas">
+    <span class="oc-nav__wordmark">ococas</span>
+  </a>
+  <div class="oc-nav__links">
+    <a href="index.html" class="oc-nav__link" data-en="Home" data-pt="Início">Home</a>
+    <a href="about.html" class="oc-nav__link" data-en="Restaurant" data-pt="Restaurante">Restaurant</a>
+    <a href="menus.html" class="oc-nav__link active" data-en="Menus" data-pt="Menus">Menus</a>
+    <a href="gallery.html" class="oc-nav__link" data-en="Gallery" data-pt="Galeria">Gallery</a>
+    <a href="visit.html" class="oc-nav__link" data-en="Visit" data-pt="Visite">Visit</a>
+  </div>
+  <div class="oc-nav__right">
+    <div class="oc-nav__lang">
+      <button data-lang="en" class="active">EN</button>
+      <span class="oc-nav__lang-sep">/</span>
+      <button data-lang="pt">PT</button>
+    </div>
+    <a href="reserve.html" class="oc-btn-reserve" data-en="Reserve" data-pt="Reservar">Reserve</a>
+  </div>
+  <button class="oc-nav__burger" aria-label="Menu">&#9776;</button>
+</nav>
+
+<div class="oc-nav__mobile-menu">
+  <button class="oc-nav__mobile-close">&#10005;</button>
+  <a href="about.html" class="oc-nav__link" data-en="Restaurant" data-pt="Restaurante">Restaurant</a>
+  <a href="menus.html" class="oc-nav__link" data-en="Menus" data-pt="Menus">Menus</a>
+  <a href="gallery.html" class="oc-nav__link" data-en="Gallery" data-pt="Galeria">Gallery</a>
+  <a href="visit.html" class="oc-nav__link" data-en="Visit" data-pt="Visite">Visit</a>
+  <a href="reserve.html" class="oc-btn-reserve" data-en="Reserve a Table" data-pt="Reservar Mesa">Reserve a Table</a>
+</div>
+
+<section class="oc-page-header">
+  <div class="oc-kicker" data-en="The Table" data-pt="À Mesa">The Table</div>
+  <h1 data-en="Menus" data-pt="Menus">Menus</h1>
+  <p data-en="A seasonal carte that changes with the market. Below is a current selection." data-pt="Uma carta sazonal que muda com o mercado. Em baixo, uma seleção atual.">A seasonal carte that changes with the market. Below is a current selection.</p>
+</section>
+
+<section class="oc-section" style="padding-top:0;">
+  <div class="oc-container--sm">
+    <div class="oc-tabs" id="menu-tabs" style="margin-bottom:14px;"></div>
+    <div id="menu-section-note" style="text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:19px;color:var(--gold2);margin-bottom:18px;"></div>
+    <div id="menu-list"></div>
+    <div style="text-align:center;">
+      <a href="#" class="oc-btn oc-btn--ghost" style="margin-top:36px;font-size:12px;padding:14px 30px;"
+         data-en="Download full menu (PDF)" data-pt="Descarregar menu completo (PDF)">Download full menu (PDF)</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding:clamp(70px,10vw,120px) 24px;text-align:center;background:radial-gradient(110% 130% at 50% 0%,#0d1830,var(--bg) 70%);border-top:1px solid var(--line);">
+  <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(30px,4.5vw,52px);margin:0 auto 26px;max-width:620px;"
+      data-en="Come taste it for yourself" data-pt="Venha provar">Come taste it for yourself</h2>
+  <a href="reserve.html" class="oc-btn oc-btn--primary" data-en="Reserve a Table" data-pt="Reservar Mesa">Reserve a Table</a>
+</section>
+
+<footer class="oc-footer--compact">
+  <div class="oc-footer__inner">
+    <a href="index.html" class="oc-footer__logo">
+      <img src="assets/logo-white.png" alt="ococas">
+      <span class="oc-footer__wordmark">ococas</span>
+    </a>
+    <span data-en="© 2026 ococas — All rights reserved" data-pt="© 2026 ococas — Todos os direitos reservados">© 2026 ococas — All rights reserved</span>
+    <span data-en="Made in Lisbon" data-pt="Feito em Lisboa">Made in Lisbon</span>
+  </div>
+</footer>
+
+<script src="js/ococas.js"></script>
+<script>
+  const MENUS = {
+    food: [
+      { n:'Amêijoas à Bulhão Pato',  d:{en:'Clams, garlic, coriander, vinho verde',           pt:'Amêijoas, alho, coentros, vinho verde'},           p:'€18' },
+      { n:'Carabineiro & açorda',    d:{en:'Scarlet prawn, bread stew, coriander',             pt:'Carabineiro, açorda de pão, coentros'},             p:'€34' },
+      { n:'Bacalhau confitado',      d:{en:'Confit cod, chickpeas, black olive',               pt:'Bacalhau confitado, grão, azeitona preta'},         p:'€28' },
+      { n:'Arroz de pato',           d:{en:'Duck rice, chouriço, burnt orange',                pt:'Arroz de pato, chouriço, laranja queimada'},        p:'€26' },
+      { n:'Leitão à Bairrada',       d:{en:'Suckling pig, orange purée, crackling',            pt:'Leitão, puré de laranja, torresmo'},                p:'€30' },
+      { n:'Pastel de nata soufflé',  d:{en:'Burnt cream, cinnamon',                            pt:'Creme queimado, canela'},                           p:'€12' }
+    ],
+    wine: [
+      { n:'Loureiro',          d:{en:'Vinho Verde, Minho — crisp, citric',        pt:'Vinho Verde, Minho — fresco, cítrico'},     p:'€7' },
+      { n:'Encruzado',         d:{en:'Dão — white, mineral, age-worthy',          pt:'Dão — branco, mineral, com guarda'},        p:'€9' },
+      { n:'Touriga Nacional',  d:{en:'Douro — red, violet, structured',           pt:'Douro — tinto, violeta, estruturado'},      p:'€11' },
+      { n:'Baga',              d:{en:'Bairrada — red, taut, savoury',             pt:'Bairrada — tinto, tenso, salgado'},         p:'€10' },
+      { n:'Moscatel de Setúbal',d:{en:'Fortified — orange peel, honey',           pt:'Fortificado — casca de laranja, mel'},      p:'€8' }
+    ],
+    drinks: [
+      { n:'O Sapo',        d:{en:'Signature — gin, green chartreuse, lime, basil', pt:'Assinatura — gin, chartreuse verde, lima, manjericão'}, p:'€14' },
+      { n:'Lisboeta',      d:{en:'Aged brandy, tawny port, bitters',               pt:'Aguardente velha, porto tawny, bitters'},              p:'€13' },
+      { n:'Príncipe Spritz',d:{en:'White port, tonic, thyme',                      pt:'Porto branco, tónica, tomilho'},                        p:'€11' },
+      { n:'Ginjinha Sour', d:{en:'Sour cherry, lemon, egg white',                  pt:'Ginja, limão, clara'},                                  p:'€12' },
+      { n:'Café da Avó',   d:{en:'Espresso, medronho brandy',                      pt:'Café, aguardente de medronho'},                         p:'€11' }
+    ]
+  };
+
+  const TABS = [
+    { k:'food',   en:'Food',   pt:'Cozinha' },
+    { k:'wine',   en:'Wine',   pt:'Vinhos'  },
+    { k:'drinks', en:'Drinks', pt:'Bar'     }
+  ];
+  const NOTES = {
+    food:   { en:'Kitchen — to share or as courses',   pt:'Cozinha — para partilhar ou em pratos' },
+    wine:   { en:'By the glass — all Portuguese',       pt:'A copo — todos portugueses' },
+    drinks: { en:'From the bar',                        pt:'Do bar' }
+  };
+
+  let currentTab = 'food';
+
+  function renderMenus(lang) {
+    // Tabs
+    const tabsEl = document.getElementById('menu-tabs');
+    tabsEl.innerHTML = TABS.map(t => `
+      <button class="oc-tab${currentTab===t.k?' active':''}" data-key="${t.k}">${t[lang]}</button>
+    `).join('');
+    tabsEl.querySelectorAll('.oc-tab').forEach(btn => {
+      btn.addEventListener('click', () => { currentTab = btn.dataset.key; renderMenus(getLang()); });
+    });
+    // Note
+    document.getElementById('menu-section-note').textContent = NOTES[currentTab][lang];
+    // List
+    document.getElementById('menu-list').innerHTML = MENUS[currentTab].map(m => `
+      <div class="oc-menu-item">
+        <div class="oc-menu-item__row">
+          <span class="oc-menu-item__name">${m.n}</span>
+          <span class="oc-menu-item__dot"></span>
+          <span class="oc-menu-item__price">${m.p}</span>
+        </div>
+        <div class="oc-menu-item__desc">${m.d[lang]}</div>
+      </div>`).join('');
+  }
+
+  window.onLangChange = renderMenus;
+  document.addEventListener('DOMContentLoaded', () => renderMenus(getLang()));
+</script>
+</body>
+</html>

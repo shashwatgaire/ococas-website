@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ococas — Lisbon</title>
+  <meta name="description" content="A candle-lit dining room in the heart of Lisbon's Príncipe Real. Portuguese soul, a contemporary table.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/ococas.css">
+  <style>
+    /* Hero */
+    .hero {
+      position: relative; min-height: 100vh; display: flex;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 130px 24px 90px; overflow: hidden;
+      background: radial-gradient(125% 95% at 50% 0%, #11203a 0%, #0a0c11 62%);
+    }
+    .hero__bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: .35;
+    }
+    .hero__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(10,12,17,.6), rgba(10,12,17,.28) 42%, rgba(10,12,17,.95));
+    }
+    .hero__content {
+      position: relative; z-index: 2; animation: ocFade 1.1s ease both;
+      display: flex; flex-direction: column; align-items: center; gap: 18px; max-width: 780px;
+    }
+    .hero__logo { height: 118px; width: auto; filter: drop-shadow(0 8px 28px rgba(0,0,0,.55)); }
+    .hero__loc {
+      font-family: 'Jost', sans-serif; text-transform: uppercase;
+      letter-spacing: .46em; font-size: 12px; color: var(--gold); margin-top: 6px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500;
+      font-size: clamp(58px,9.5vw,120px); line-height: .92; margin: 0; letter-spacing: .01em;
+    }
+    .hero__tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+      font-size: clamp(21px,2.7vw,32px); color: var(--gold2); margin: 0;
+    }
+    .hero__intro {
+      font-family: 'Jost', sans-serif; font-weight: 300; font-size: 16px;
+      line-height: 1.8; color: #cfc9ba; max-width: 520px; margin: 6px 0 8px;
+    }
+    .hero__btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+    .hero__scroll {
+      position: absolute; bottom: 30px; left: 0; right: 0; text-align: center; z-index: 2;
+      font-family: 'Jost', sans-serif; text-transform: uppercase;
+      letter-spacing: .34em; font-size: 10px; color: var(--muted);
+      animation: ocBob 2.4s ease-in-out infinite;
+    }
+
+    /* About teaser */
+    .about-img { width: 100%; aspect-ratio: 4/5; }
+
+    /* Gallery 3-col */
+    .home-gallery { display: grid; grid-template-columns: repeat(3,1fr); grid-auto-rows: 300px; gap: 14px; }
+    @media(max-width:900px){ .home-gallery { grid-template-columns: 1fr; grid-auto-rows: 220px; } }
+
+    /* Visit map */
+    .home-visit-map { min-height: 380px; height: 100%; }
+
+    /* Reserve band */
+    .reserve-band {
+      padding: clamp(90px,12vw,150px) 24px; text-align: center;
+      background: radial-gradient(110% 130% at 50% 0%, #0d1830, var(--bg) 70%);
+      border-top: 1px solid var(--line);
+    }
+    .reserve-band h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500;
+      font-size: clamp(36px,5.5vw,68px); line-height: 1.02; margin: 0 auto 30px; max-width: 760px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="oc-nav">
+  <a href="index.html" class="oc-nav__logo">
+    <img src="assets/logo-white.png" alt="ococas">
+    <span class="oc-nav__wordmark">ococas</span>
+  </a>
+  <div class="oc-nav__links">
+    <a href="index.html" class="oc-nav__link active" data-en="Home" data-pt="Início">Home</a>
+    <a href="about.html" class="oc-nav__link" data-en="Restaurant" data-pt="Restaurante">Restaurant</a>
+    <a href="menus.html" class="oc-nav__link" data-en="Menus" data-pt="Menus">Menus</a>
+    <a href="gallery.html" class="oc-nav__link" data-en="Gallery" data-pt="Galeria">Gallery</a>
+    <a href="visit.html" class="oc-nav__link" data-en="Visit" data-pt="Visite">Visit</a>
+  </div>
+  <div class="oc-nav__right">
+    <div class="oc-nav__lang">
+      <button data-lang="en" class="active">EN</button>
+      <span class="oc-nav__lang-sep">/</span>
+      <button data-lang="pt">PT</button>
+    </div>
+    <a href="reserve.html" class="oc-btn-reserve" data-en="Reserve" data-pt="Reservar">Reserve</a>
+  </div>
+  <button class="oc-nav__burger" aria-label="Menu">&#9776;</button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="oc-nav__mobile-menu">
+  <button class="oc-nav__mobile-close">&#10005;</button>
+  <a href="about.html" class="oc-nav__link" data-en="Restaurant" data-pt="Restaurante">Restaurant</a>
+  <a href="menus.html" class="oc-nav__link" data-en="Menus" data-pt="Menus">Menus</a>
+  <a href="gallery.html" class="oc-nav__link" data-en="Gallery" data-pt="Galeria">Gallery</a>
+  <a href="visit.html" class="oc-nav__link" data-en="Visit" data-pt="Visite">Visit</a>
+  <a href="reserve.html" class="oc-btn-reserve" data-en="Reserve a Table" data-pt="Reservar Mesa">Reserve a Table</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <!-- Replace src below with a real dining room photo -->
+  <!-- <img class="hero__bg" src="assets/images/hero.jpg" alt=""> -->
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <img class="hero__logo" src="assets/logo-white.png" alt="ococas">
+    <div class="hero__loc" data-en="Lisbon · Príncipe Real" data-pt="Lisboa · Príncipe Real">Lisbon · Príncipe Real</div>
+    <h1>ococas</h1>
+    <p class="hero__tagline" data-en="Portuguese soul, a contemporary table" data-pt="Alma portuguesa, mesa contemporânea">Portuguese soul, a contemporary table</p>
+    <p class="hero__intro" data-en="A candle-lit dining room in the heart of Lisbon, where heritage recipes are turned with a modern, surprising hand." data-pt="Uma sala à luz das velas no coração de Lisboa, onde as receitas de sempre ganham uma mão moderna e surpreendente.">A candle-lit dining room in the heart of Lisbon, where heritage recipes are turned with a modern, surprising hand.</p>
+    <div class="hero__btns">
+      <a href="reserve.html" class="oc-btn oc-btn--primary" data-en="Reserve a Table" data-pt="Reservar Mesa">Reserve a Table</a>
+      <a href="menus.html" class="oc-btn oc-btn--ghost" data-en="View Menus" data-pt="Ver Menus">View Menus</a>
+    </div>
+  </div>
+  <div class="hero__scroll" data-en="Scroll" data-pt="Descer">Scroll</div>
+</section>
+
+<!-- ===== ABOUT TEASER ===== -->
+<section class="oc-section">
+  <div class="oc-container">
+    <div class="oc-two-col">
+      <!-- Replace with real interior photo -->
+      <div class="oc-img-slot about-img">
+        <div class="oc-img-slot__label">Interior photo</div>
+      </div>
+      <div>
+        <div class="oc-kicker" data-en="The Restaurant" data-pt="O Restaurante">The Restaurant</div>
+        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,4.4vw,52px);margin:14px 0 24px;" data-en="Where Lisbon gathers after dark" data-pt="Onde Lisboa se encontra ao anoitecer">Where Lisbon gathers after dark</h2>
+        <p style="font-family:'Jost',sans-serif;font-weight:300;font-size:16px;line-height:1.85;color:var(--muted);margin-bottom:28px;max-width:520px;" data-en="Set in a restored townhouse off the Príncipe Real garden, ococas keeps the bones of old Lisbon — high ceilings, dark timber, brass — and fills them with the energy of a modern dining room." data-pt="Num palacete recuperado junto ao jardim do Príncipe Real, o ococas mantém os ossos da Lisboa antiga — tetos altos, madeira escura, latão — e enche-os com a energia de uma sala moderna.">Set in a restored townhouse off the Príncipe Real garden, ococas keeps the bones of old Lisbon — high ceilings, dark timber, brass — and fills them with the energy of a modern dining room.</p>
+        <a href="about.html" class="oc-link" data-en="Discover the restaurant →" data-pt="Conhecer o restaurante →">Discover the restaurant →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MENU TEASER ===== -->
+<section class="oc-section oc-section--alt">
+  <div style="max-width:900px;margin:0 auto;text-align:center;">
+    <div class="oc-kicker" data-en="The Table" data-pt="À Mesa">The Table</div>
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,4.4vw,52px);margin:14px 0 36px;" data-en="A taste of the menu" data-pt="Uma amostra do menu">A taste of the menu</h2>
+    <div style="max-width:720px;margin:0 auto;text-align:left;" id="menu-highlights"></div>
+    <a href="menus.html" class="oc-link" style="display:inline-block;margin-top:34px;" data-en="See all menus →" data-pt="Ver todos os menus →">See all menus →</a>
+  </div>
+</section>
+
+<!-- ===== GALLERY TEASER ===== -->
+<section class="oc-section">
+  <div class="oc-container">
+    <div class="oc-section-intro">
+      <div class="oc-kicker" data-en="The Room" data-pt="A Sala">The Room</div>
+      <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,4.4vw,52px);" data-en="A look inside" data-pt="Por dentro">A look inside</h2>
+    </div>
+    <div class="home-gallery">
+      <!-- Replace these with real photos -->
+      <div class="oc-img-slot"><div class="oc-img-slot__label" data-en="Dining room" data-pt="Sala">Dining room</div></div>
+      <div class="oc-img-slot"><div class="oc-img-slot__label" data-en="A dish" data-pt="Um prato">A dish</div></div>
+      <div class="oc-img-slot"><div class="oc-img-slot__label" data-en="The bar" data-pt="O bar">The bar</div></div>
+    </div>
+    <div style="text-align:center;">
+      <a href="gallery.html" class="oc-link" style="display:inline-block;margin-top:30px;" data-en="View the gallery →" data-pt="Ver a galeria →">View the gallery →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VISIT TEASER ===== -->
+<section class="oc-section oc-section--alt">
+  <div class="oc-container">
+    <div class="oc-two-col oc-two-col--stretch">
+      <div>
+        <div class="oc-kicker" data-en="Find Us" data-pt="Encontre-nos">Find Us</div>
+        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,4.4vw,52px);margin:14px 0 28px;" data-en="Visit ococas" data-pt="Visite o ococas">Visit ococas</h2>
+        <div style="display:grid;gap:22px;margin-bottom:28px;">
+          <div>
+            <div style="font-family:'Jost',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:var(--gold);margin-bottom:8px;" data-en="Hours" data-pt="Horário">Hours</div>
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.55;">
+              <span data-en="Lunch — Tue to Sun, 12:30–15:00" data-pt="Almoço — Ter a Dom, 12:30–15:00">Lunch — Tue to Sun, 12:30–15:00</span><br>
+              <span data-en="Dinner — Tue to Sun, 19:00–23:30" data-pt="Jantar — Ter a Dom, 19:00–23:30">Dinner — Tue to Sun, 19:00–23:30</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'Jost',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:var(--gold);margin-bottom:8px;" data-en="Address" data-pt="Morada">Address</div>
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.55;">Rua da Escola Politécnica 27<br>Príncipe Real, 1250-100 Lisboa</div>
+          </div>
+        </div>
+        <a href="visit.html" class="oc-link" data-en="Plan your visit →" data-pt="Planeie a sua visita →">Plan your visit →</a>
+      </div>
+      <div class="oc-map home-visit-map">
+        <div class="oc-map__sweep"></div>
+        <div class="oc-map__pin"></div>
+        <div class="oc-map__pulse"></div>
+        <div class="oc-map__label" data-en="Príncipe Real · Lisboa" data-pt="Príncipe Real · Lisboa">Príncipe Real · Lisboa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESERVE BAND ===== -->
+<section class="reserve-band">
+  <div class="oc-kicker" style="margin-bottom:18px;" data-en="Reservations" data-pt="Reservas">Reservations</div>
+  <h2 data-en="Join us for an evening at ococas" data-pt="Junte-se a nós para uma noite no ococas">Join us for an evening at ococas</h2>
+  <a href="reserve.html" class="oc-btn oc-btn--primary" data-en="Reserve a Table" data-pt="Reservar Mesa">Reserve a Table</a>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="oc-footer">
+  <div class="oc-footer__grid">
+    <div>
+      <a href="index.html" class="oc-footer__logo">
+        <img src="assets/logo-white.png" alt="ococas">
+        <span class="oc-footer__wordmark">ococas</span>
+      </a>
+      <p class="oc-footer__tagline" data-en="Portuguese soul, a contemporary table" data-pt="Alma portuguesa, mesa contemporânea">Portuguese soul, a contemporary table</p>
+      <p class="oc-footer__addr">Rua da Escola Politécnica 27<br>Príncipe Real, 1250-100 Lisboa</p>
+    </div>
+    <div>
+      <div class="oc-footer__section-label" data-en="Newsletter" data-pt="Newsletter">Newsletter</div>
+      <form class="oc-footer__newsletter" onsubmit="return false;">
+        <input type="email" data-ph-en="Your email" data-ph-pt="O seu email" placeholder="Your email" aria-label="Newsletter email">
+        <button type="submit">&#8594;</button>
+      </form>
+    </div>
+    <div>
+      <div class="oc-footer__section-label" data-en="Follow" data-pt="Siga-nos">Follow</div>
+      <div class="oc-footer__social">
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+  </div>
+  <div class="oc-footer__bottom">
+    <span data-en="© 2026 ococas — All rights reserved" data-pt="© 2026 ococas — Todos os direitos reservados">© 2026 ococas — All rights reserved</span>
+    <span data-en="Made in Lisbon" data-pt="Feito em Lisboa">Made in Lisbon</span>
+  </div>
+</footer>
+
+<script src="js/ococas.js"></script>
+<script>
+  // Menu highlights
+  const HIGH = [
+    { n:'Carabineiro & açorda', d:{en:'Scarlet prawn, bread stew, coriander', pt:'Carabineiro, açorda de pão, coentros'}, p:'€34' },
+    { n:'Leitão à Bairrada',    d:{en:'Suckling pig, orange purée, crackling', pt:'Leitão, puré de laranja, torresmo'},  p:'€30' },
+    { n:'O Sapo',               d:{en:'Signature cocktail — gin, chartreuse, basil', pt:'Cocktail de assinatura — gin, chartreuse, manjericão'}, p:'€14' }
+  ];
+
+  function renderMenuHighlights(lang) {
+    const el = document.getElementById('menu-highlights');
+    if (!el) return;
+    el.innerHTML = HIGH.map(m => `
+      <div class="oc-menu-item">
+        <div class="oc-menu-item__row">
+          <span class="oc-menu-item__name">${m.n}</span>
+          <span class="oc-menu-item__dot"></span>
+          <span class="oc-menu-item__price">${m.p}</span>
+        </div>
+        <div class="oc-menu-item__desc">${m.d[lang]}</div>
+      </div>`).join('');
+  }
+
+  window.onLangChange = renderMenuHighlights;
+  document.addEventListener('DOMContentLoaded', () => renderMenuHighlights(getLang()));
+</script>
+</body>
+</html>
