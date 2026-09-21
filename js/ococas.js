@@ -4,11 +4,11 @@
 const DICT = {
   en: {
     nav: { about:'Restaurant', menus:'Menus', gallery:'Gallery', visit:'Visit', reserve:'Reserve' },
-    footer: { rights:'© 2026 ococas — All rights reserved', lisbon:'Made in Lisbon', news:'Newsletter', newsPh:'Your email', follow:'Follow' }
+    footer: { rights:'© 2026 O Cocas — All rights reserved', lisbon:'Made in Lisbon', news:'Newsletter', newsPh:'Your email', follow:'Follow' }
   },
   pt: {
     nav: { about:'Restaurante', menus:'Menus', gallery:'Galeria', visit:'Visite', reserve:'Reservar' },
-    footer: { rights:'© 2026 ococas — Todos os direitos reservados', lisbon:'Feito em Lisboa', news:'Newsletter', newsPh:'O seu email', follow:'Siga-nos' }
+    footer: { rights:'© 2026 O Cocas — Todos os direitos reservados', lisbon:'Feito em Lisboa', news:'Newsletter', newsPh:'O seu email', follow:'Siga-nos' }
   }
 };
 

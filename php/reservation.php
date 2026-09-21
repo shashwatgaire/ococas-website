@@ -1,6 +1,6 @@
 <?php
 /**
- * ococas reservation handler
+ * O Cocas reservation handler
  * Receives form data from reserve.html and sends a notification email.
  * Configure NOTIFY_EMAILS below with the restaurant's notification addresses.
  */
@@ -9,9 +9,9 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 // ---- Configuration ----
-define('NOTIFY_EMAILS', ['reservations@ococas.com', 'shashwatgaire0@gmail.com', 'ococas1@gmail.com']); // restaurant inbox + owner copies
+define('NOTIFY_EMAILS', ['reservations@ococas.com', 'ococas1@gmail.com']); // restaurant inbox + owner copy
 define('FROM_EMAIL',   'noreply@ococas.pt');     // sender (must be valid on your cPanel domain)
-define('SITE_NAME',    'ococas');
+define('SITE_NAME',    'O Cocas');
 define('CALL_THRESHOLD', 4); // parties larger than this are called to confirm instead of auto-accepted
 
 // ---- Only accept POST ----
@@ -75,7 +75,7 @@ foreach (NOTIFY_EMAILS as $notifyAddress) {
 
 // ---- Confirmation email (to guest) ----
 if ($needsCall) {
-    $confirmSubject = "Your reservation request at ococas — {$ref}";
+    $confirmSubject = "Your reservation request at O Cocas — {$ref}";
     $confirmBody = "Dear {$name},\n\n";
     $confirmBody .= "Thank you for your reservation request. Here are the details:\n\n";
     $confirmBody .= "Reference  : {$ref}\n";
@@ -85,12 +85,12 @@ if ($needsCall) {
     $confirmBody .= "Guests     : {$guests}\n\n";
     $confirmBody .= "As your party is larger than " . CALL_THRESHOLD . ", our team will call you at {$phone} shortly to confirm your table.\n\n";
     $confirmBody .= "We look forward to welcoming you.\n\n";
-    $confirmBody .= "— The team at ococas\n";
+    $confirmBody .= "— The team at O Cocas\n";
     $confirmBody .= "R. dos Correeiros 177, 1100-571 Lisboa, Portugal\n";
 } else {
-    $confirmSubject = "Your reservation at ococas — {$ref}";
+    $confirmSubject = "Your reservation at O Cocas — {$ref}";
     $confirmBody = "Dear {$name},\n\n";
-    $confirmBody .= "Your table at ococas is confirmed. Here are the details:\n\n";
+    $confirmBody .= "Your table at O Cocas is confirmed. Here are the details:\n\n";
     $confirmBody .= "Reference  : {$ref}\n";
     $confirmBody .= "Restaurant : {$location}\n";
     $confirmBody .= "Date       : {$date}\n";
@@ -99,7 +99,7 @@ if ($needsCall) {
     $confirmBody .= "We hold your table for 15 minutes. If you need to cancel or change your reservation,\n";
     $confirmBody .= "please call us at +351 920 038 770 or reply to this email.\n\n";
     $confirmBody .= "We look forward to welcoming you.\n\n";
-    $confirmBody .= "— The team at ococas\n";
+    $confirmBody .= "— The team at O Cocas\n";
     $confirmBody .= "R. dos Correeiros 177, 1100-571 Lisboa, Portugal\n";
 }
 

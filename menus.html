@@ -3,19 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Menus — ococas</title>
-  <meta name="description" content="Food, wine and drinks menus at ococas, Lisbon.">
+  <title>Menus — O Cocas</title>
+  <meta name="description" content="Food and drinks menus at O Cocas, Lisbon.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/ococas.css">
+  <style>
+    /* Menu group headings */
+    .oc-menu-group { margin-top: 56px; }
+    .oc-menu-group:first-child { margin-top: 0; }
+    .oc-menu-group__head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 18px; flex-wrap: wrap;
+      padding-bottom: 11px; border-bottom: 1px solid var(--gold);
+    }
+    .oc-menu-group__title {
+      font-family: 'Jost', sans-serif; font-weight: 400;
+      text-transform: uppercase; letter-spacing: .26em;
+      font-size: 12px; color: var(--gold); margin: 0;
+    }
+    .oc-menu-group__sub {
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      text-transform: uppercase; letter-spacing: .14em;
+      font-size: 10px; color: var(--muted); white-space: nowrap;
+    }
+    .oc-menu-group .oc-menu-item:last-child { border-bottom: none; }
+    .oc-menu-item__price--pair { display: inline-flex; gap: 18px; }
+    .oc-menu-item__price--pair span { display: inline-block; min-width: 52px; text-align: right; }
+    .oc-menu-legal {
+      margin-top: 46px; text-align: center;
+      font-family: 'Jost', sans-serif; font-weight: 300;
+      text-transform: uppercase; letter-spacing: .2em;
+      font-size: 10px; color: var(--muted);
+    }
+  </style>
 </head>
 <body>
 
 <nav class="oc-nav">
   <a href="index.html" class="oc-nav__logo">
-    <img src="assets/logo-white.png" alt="ococas">
-    <span class="oc-nav__wordmark">ococas</span>
+    <img src="assets/logo-white.png" alt="O Cocas">
+    <span class="oc-nav__wordmark">O Cocas</span>
   </a>
   <div class="oc-nav__links">
     <a href="index.html" class="oc-nav__link" data-en="Home" data-pt="Início">Home</a>
@@ -45,16 +74,17 @@
 </div>
 
 <section class="oc-page-header">
-  <div class="oc-kicker" data-en="The Table" data-pt="À Mesa">The Table</div>
+  <div class="oc-kicker" data-en="From the Kitchen" data-pt="Da Cozinha">From the Kitchen</div>
   <h1 data-en="Menus" data-pt="Menus">Menus</h1>
-  <p data-en="A seasonal carte that changes with the market. Below is a current selection." data-pt="Uma carta sazonal que muda com o mercado. Em baixo, uma seleção atual.">A seasonal carte that changes with the market. Below is a current selection.</p>
+  <p data-en="Explore our selection of Portuguese dishes, seafood, tapas, grilled fish, meats, and drinks." data-pt="Explore a nossa seleção de pratos portugueses, marisco, petiscos, peixe grelhado, carnes e bebidas.">Explore our selection of Portuguese dishes, seafood, tapas, grilled fish, meats, and drinks.</p>
 </section>
 
 <section class="oc-section" style="padding-top:0;">
   <div class="oc-container--sm">
     <div class="oc-tabs" id="menu-tabs" style="margin-bottom:14px;"></div>
-    <div id="menu-section-note" style="text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:19px;color:var(--gold2);margin-bottom:18px;"></div>
+    <div id="menu-section-note" style="text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:19px;color:var(--gold2);margin-bottom:38px;"></div>
     <div id="menu-list"></div>
+    <div class="oc-menu-legal" data-en="VAT included · Legal rate in force" data-pt="IVA incluído · Taxa legal em vigor">VAT included · Legal rate in force</div>
     <div style="text-align:center;">
       <a href="#" class="oc-btn oc-btn--ghost" style="margin-top:36px;font-size:12px;padding:14px 30px;"
          data-en="Download full menu (PDF)" data-pt="Descarregar menu completo (PDF)">Download full menu (PDF)</a>
@@ -71,53 +101,297 @@
 <footer class="oc-footer--compact">
   <div class="oc-footer__inner">
     <a href="index.html" class="oc-footer__logo">
-      <img src="assets/logo-white.png" alt="ococas">
-      <span class="oc-footer__wordmark">ococas</span>
+      <img src="assets/logo-white.png" alt="O Cocas">
+      <span class="oc-footer__wordmark">O Cocas</span>
     </a>
-    <span data-en="© 2026 ococas — All rights reserved" data-pt="© 2026 ococas — Todos os direitos reservados">© 2026 ococas — All rights reserved</span>
+    <span data-en="© 2026 O Cocas — All rights reserved" data-pt="© 2026 O Cocas — Todos os direitos reservados">© 2026 O Cocas — All rights reserved</span>
     <span data-en="Made in Lisbon" data-pt="Feito em Lisboa">Made in Lisbon</span>
   </div>
 </footer>
 
 <script src="js/ococas.js"></script>
 <script>
+  /* Menu data.
+     n   = dish name (Portuguese, as printed on the menu)
+     d   = English gloss, shown in EN; omit for brand-name drinks
+     dPt = Portuguese gloss, shown in PT; only where the name alone
+           does not say what is in the dish
+     p   = single price  |  g/b = by the glass / by the bottle (0.75L) */
   const MENUS = {
     food: [
-      { n:'Amêijoas à Bulhão Pato',  d:{en:'Clams, garlic, coriander, vinho verde',           pt:'Amêijoas, alho, coentros, vinho verde'},           p:'€18' },
-      { n:'Carabineiro & açorda',    d:{en:'Scarlet prawn, bread stew, coriander',             pt:'Carabineiro, açorda de pão, coentros'},             p:'€34' },
-      { n:'Bacalhau confitado',      d:{en:'Confit cod, chickpeas, black olive',               pt:'Bacalhau confitado, grão, azeitona preta'},         p:'€28' },
-      { n:'Arroz de pato',           d:{en:'Duck rice, chouriço, burnt orange',                pt:'Arroz de pato, chouriço, laranja queimada'},        p:'€26' },
-      { n:'Leitão à Bairrada',       d:{en:'Suckling pig, orange purée, crackling',            pt:'Leitão, puré de laranja, torresmo'},                p:'€30' },
-      { n:'Pastel de nata soufflé',  d:{en:'Burnt cream, cinnamon',                            pt:'Creme queimado, canela'},                           p:'€12' }
+      { sec:'Entradas / Starters', items:[
+        { n:'Cesto de Pão',  d:'Bread basket', p:'€2' },
+        { n:'Manteiga',      d:'Butter',       p:'€2' },
+        { n:'Azeitonas',     d:'Olives',       p:'€4' }
+      ]},
+      { sec:'Queijos / Cheeses', items:[
+        { n:'Queijo Comté',                    d:'Comté cheese, France', dPt:'França',                     p:'€7' },
+        { n:'Queijo Manchego',                 d:'Manchego cheese, Spain', dPt:'Espanha',                    p:'€7' },
+        { n:'Queijo de Cabra Amanteigado',     d:'Creamy goat cheese, Portugal', dPt:'Portugal',              p:'€7' },
+        { n:'Queijo da Ilha de São Jorge',     d:'São Jorge island cheese, 7 months, Portugal', dPt:'Portugal · 7 meses', p:'€7' },
+        { n:'Queijo Parmesão',                 d:'Parmesan cheese, Italy', dPt:'Itália',                    p:'€7' }
+      ]},
+      { sec:'Tapas', items:[
+        { n:'Croquetes de Vitela',        d:'Veal croquettes, 2 pieces', dPt:'2 unidades',              p:'€4'  },
+        { n:'Pastéis de Bacalhau',        d:'Codfish cakes, 2 pieces', dPt:'2 unidades',                p:'€4'  },
+        { n:'Chamuças de Frango',         d:'Chicken samosas, 2 pieces', dPt:'2 unidades',              p:'€4'  },
+        { n:'Chamuças de Vegetais',       d:'Vegetable samosas, 2 pieces', dPt:'2 unidades',            p:'€4'  },
+        { n:'Bruschetta de Tomate',       d:'Tomato bruschetta',                      p:'€4'  },
+        { n:'Batatas Bravas',             d:'Bravas potatoes with house sauce', dPt:'Com molho da casa',       p:'€6'  },
+        { n:'Beringela Assada',           d:'Roasted eggplant',                       p:'€6'  },
+        { n:'Chouriço Assado',            d:'Roasted chorizo',                        p:'€7'  },
+        { n:'Calamari Fritas',            d:'Fried squid',                            p:'€8'  },
+        { n:'Espetada de Frango',         d:'Chicken skewers',                        p:'€8'  },
+        { n:'Entrecosto de Porco Frito',  d:'Fried pork ribs',                        p:'€8'  },
+        { n:'Ovos Mexidos com Presunto',  d:'Scrambled eggs with ham',                p:'€8'  },
+        { n:'Ovos Mexidos com Espargos',  d:'Scrambled eggs with asparagus',          p:'€8'  },
+        { n:'Peixinhos da Horta',         d:'Green bean tempura',                     p:'€8'  },
+        { n:'Pimentos Padrón Assados',    d:'Roasted Padrón peppers',                 p:'€8'  },
+        { n:'Cogumelos à Bulhão Pato',    d:'Mushrooms, Bulhão Pato style',           p:'€8'  },
+        { n:'Bacalhau à Brás',            d:'Codfish à Brás',                         p:'€9'  },
+        { n:'Mexilhões à Espanhola',      d:'Spanish-style mussels',                  p:'€10' },
+        { n:'Choco Baby à Bulhão Pato',   d:'Baby cuttlefish, Bulhão Pato style',     p:'€12' },
+        { n:'Polvo à Galega',             d:'Galician-style octopus',                 p:'€12' },
+        { n:'Espargos Grelhados',         d:'Grilled asparagus',                      p:'€12' },
+        { n:'Tábua de Presunto Ibérico',  d:'Iberian ham board',                      p:'€13' },
+        { n:'Gambas al Ajillo',           d:'Shrimps with garlic sauce',              p:'€13' },
+        { n:'Amêijoas à Bulhão Pato',     d:'Clams, Bulhão Pato style',               p:'€14' },
+        { n:'Pica-Pau de Lombo',          d:'Garlic beef tenderloin bites',           p:'€14' },
+        { n:'Gambas Grelhadas',           d:'Grilled shrimps',                        p:'€15' },
+        { n:'Tridente do Mar',            d:'Trident of the Sea — cod, octopus, shrimps', dPt:'Bacalhau, gambas, polvo', p:'€15' },
+        { n:'Tábua de Queijos Tradicional', d:'Traditional cheese platter',           p:'€15' },
+        { n:'Tábua de 5 Queijos',         d:'Five-cheese platter',                    p:'€22' }
+      ]},
+      { sec:'Pratos de Mar / Seafood Dishes', items:[
+        { n:'Choco Frito com Batata Frita', d:'Fried cuttlefish with french fries',        p:'€13' },
+        { n:'Sardinha Assada',              d:'Roasted sardines',                          p:'€13' },
+        { n:'Robalo Grelhado',              d:'Grilled sea bass',                          p:'€15' },
+        { n:'Dourada Grelhada',             d:'Grilled gilt-head bream',                   p:'€15' },
+        { n:'Arroz de Polvo',               d:'Octopus rice',                              p:'€15' },
+        { n:'Bife de Atum Grelhado',        d:'Grilled tuna steak',                        p:'€17' },
+        { n:'Salmão Grelhado',              d:'Grilled salmon',                            p:'€17' },
+        { n:'Bacalhau à Portuguesa',        d:'Portuguese-style cod',                      p:'€17' },
+        { n:'Arroz de Marisco',             d:'Seafood rice',                              p:'€18' },
+        { n:'Bacalhau de O Cocas',          d:'O Cocas-style cod',                         p:'€19' },
+        { n:'Cataplana de Peixe',           d:'Fish cataplana',                            p:'€20' },
+        { n:'Polvo à Lagareiro',            d:'Grilled octopus in olive oil and garlic',   p:'€21' },
+        { n:'Cataplana de Marisco',         d:'Seafood cataplana',                         p:'€22' },
+        { n:'Lagosta Grelhada',             d:'Grilled lobster with lemon butter sauce', dPt:'Com molho de manteiga e limão',   p:'€32' },
+        { n:'Misto de Peixe',               d:'Mixed fish platter',                        p:'€35' },
+        { n:'Misto de Peixe com Gambas',    d:'Mixed fish platter with prawns',            p:'€45' }
+      ]},
+      { sec:'Pratos de Carne / Meat Dishes', items:[
+        { n:'Bife de Frango com Piri-Piri',  d:'Chicken steak with piri-piri sauce', p:'€13' },
+        { n:'Lombinhos de Porco Grelhados',  d:'Grilled pork tenderloin',            p:'€13' },
+        { n:'Costeletas de Borrego Grelhadas', d:'Grilled lamb chops',               p:'€17' },
+        { n:'Bife de Vazia na Frigideira',   d:'Sirloin steak on the skillet',       p:'€18' },
+        { n:'Bochechas de Porco',            d:'Pork cheeks',                        p:'€18' },
+        { n:'Bife do Lombo na Frigideira',   d:'Loin steak on the skillet',          p:'€22' },
+        { n:'Mista de Carne',                d:'Mixed meat platter',                 p:'€25' }
+      ]},
+      { sec:'Pratos de Veg / Veg Dishes', items:[
+        { n:'Arroz com Cogumelos', d:'Mushroom rice',                                 p:'€12' },
+        { n:'Arroz com Vegetais',  d:'Vegetable rice with tomato and curry sauce', dPt:'Molho de tomate e caril',     p:'€13' }
+      ]},
+      { sec:'Saladas / Salads', items:[
+        { n:'Salada Mista',     d:'Mixed salad',         p:'€5'  },
+        { n:'Salada de Frango', d:'Chicken salad',       p:'€8'  },
+        { n:'Salada Grega',     d:'Classic Greek salad', p:'€8'  },
+        { n:'Salada de Polvo',  d:'Octopus salad',       p:'€12' }
+      ]},
+      { sec:'Sanduíches / Sandwiches', items:[
+        { n:'Sanduíche de Queijo e Presunto', d:'Cheese and ham sandwich',    p:'€7' },
+        { n:'Prego de Lombo',                 d:'Tenderloin steak sandwich',  p:'€9' },
+        { n:'Prego de Atum Fresco',           d:'Fresh tuna sandwich',        p:'€9' }
+      ]},
+      { sec:'Acompanhamentos / Sides', items:[
+        { n:'Batatas Fritas',   d:'French fries',       p:'€4' },
+        { n:'Arroz Branco',     d:'White basmati rice', dPt:'Basmati', p:'€4' },
+        { n:'Legumes Mistos',   d:'Mixed vegetables',   p:'€5' },
+        { n:'Arroz de Tomate',  d:'Tomato rice',        p:'€5' },
+        { n:'Arroz Frito',      d:'Fried rice',         p:'€5' }
+      ]},
+      { sec:'Sobremesas / Desserts', items:[
+        { n:'Gelado de Baunilha', d:'Vanilla ice cream',                    p:'€4' },
+        { n:'Bolo de Chocolate',  d:'Chocolate cake with vanilla ice cream', dPt:'Com gelado de baunilha', p:'€5' },
+        { n:'Leite-Creme',        d:'Crème brûlée',                         p:'€5' },
+        { n:'Sorvete de Limão',   d:'Lemon sorbet',                         p:'€5' },
+        { n:'Tarte de Limão',     d:'Lemon tart',                           p:'€5' }
+      ]}
     ],
-    wine: [
-      { n:'Loureiro',          d:{en:'Vinho Verde, Minho — crisp, citric',        pt:'Vinho Verde, Minho — fresco, cítrico'},     p:'€7' },
-      { n:'Encruzado',         d:{en:'Dão — white, mineral, age-worthy',          pt:'Dão — branco, mineral, com guarda'},        p:'€9' },
-      { n:'Touriga Nacional',  d:{en:'Douro — red, violet, structured',           pt:'Douro — tinto, violeta, estruturado'},      p:'€11' },
-      { n:'Baga',              d:{en:'Bairrada — red, taut, savoury',             pt:'Bairrada — tinto, tenso, salgado'},         p:'€10' },
-      { n:'Moscatel de Setúbal',d:{en:'Fortified — orange peel, honey',           pt:'Fortificado — casca de laranja, mel'},      p:'€8' }
-    ],
+
     drinks: [
-      { n:'O Sapo',        d:{en:'Signature — gin, green chartreuse, lime, basil', pt:'Assinatura — gin, chartreuse verde, lima, manjericão'}, p:'€14' },
-      { n:'Lisboeta',      d:{en:'Aged brandy, tawny port, bitters',               pt:'Aguardente velha, porto tawny, bitters'},              p:'€13' },
-      { n:'Príncipe Spritz',d:{en:'White port, tonic, thyme',                      pt:'Porto branco, tónica, tomilho'},                        p:'€11' },
-      { n:'Ginjinha Sour', d:{en:'Sour cherry, lemon, egg white',                  pt:'Ginja, limão, clara'},                                  p:'€12' },
-      { n:'Café da Avó',   d:{en:'Espresso, medronho brandy',                      pt:'Café, aguardente de medronho'},                         p:'€11' }
+      { sec:'Água / Water', items:[
+        { n:'Água sem Gás', d:'Still water',      p:'€2.20' },
+        { n:'Água com Gás', d:'Sparkling water',  p:'€2.20' },
+        { n:'Água Tónica',  d:'Tonic water',      p:'€2.50' }
+      ]},
+      { sec:'Refrigerantes / Soda', items:[
+        { n:'Coca-Cola', p:'€3'    },
+        { n:'Sprite',    p:'€3'    },
+        { n:'Fanta',     p:'€3'    },
+        { n:'Ice Tea',   p:'€3'    },
+        { n:'Ginger Ale',p:'€3'    },
+        { n:'Red Bull',  p:'€3.50' }
+      ]},
+      { sec:'Sumos / Juice', items:[
+        { n:'Néctar de Fruta', d:'Fruit nectar',          p:'€3'    },
+        { n:'Limonada',        d:'Lemonade',              p:'€3'    },
+        { n:'Laranja Natural', d:'Fresh orange juice',    p:'€4.50' }
+      ]},
+      { sec:'Cafés / Coffee', items:[
+        { n:'Espresso',      d:'Espresso',   p:'€1.20' },
+        { n:'Abatanado',     d:'Americano',  p:'€2'    },
+        { n:'Duplo',         d:'Double',     p:'€2.50' },
+        { n:'Meia de Leite', d:'Latte',      p:'€2.50' },
+        { n:'Chá',           d:'Tea',        p:'€2.50' },
+        { n:'Cappuccino',    d:'Cappuccino', p:'€3.50' }
+      ]},
+      { sec:'Cervejas / Beers', items:[
+        { n:'Imperial 0,2 L', d:'Draft beer 0.2L',   p:'€2.50' },
+        { n:'Garrafa 0,33 L', d:'Bottle 0.33L',      p:'€3.50' },
+        { n:'Cidra',          d:'Cider',             p:'€4.50' },
+        { n:'Caneca',         d:'Pint',              p:'€5'    },
+        { n:'Caneca 1 L',     d:'Large beer 1L',     p:'€9'    }
+      ]},
+      { sec:'Coquetéis / Cocktails', items:[
+        { n:'Caipirinha',       p:'€7'  },
+        { n:'Margarita',        p:'€7'  },
+        { n:'Mojito',           p:'€8'  },
+        { n:'Daiquiri',         p:'€8'  },
+        { n:'Dry Martini',      p:'€8'  },
+        { n:'Aperol Spritz',    p:'€9'  },
+        { n:'Limoncello Spritz',p:'€9'  },
+        { n:'Piña Colada',      p:'€9'  },
+        { n:'Espresso Martini', p:'€9'  },
+        { n:'Moscow Mule',      p:'€9'  },
+        { n:'Negroni',          p:'€10' },
+        { n:'Old Fashioned',    p:'€10' },
+        { n:'Manhattan',        p:'€10' },
+        { n:'O Cocas Signature',d:'Our house cocktail', dPt:'O nosso cocktail da casa', p:'€13' }
+      ]},
+      { sec:'Mocktails', items:[
+        { n:'Mojito',          d:'Alcohol-free', dPt:'Sem álcool', p:'€6' },
+        { n:'Tequila Sunrise', d:'Alcohol-free', dPt:'Sem álcool', p:'€7' },
+        { n:'Piña Colada',     d:'Alcohol-free', dPt:'Sem álcool', p:'€7' },
+        { n:'Shirley Temple',  d:'Alcohol-free', dPt:'Sem álcool', p:'€8' }
+      ]},
+      { sec:'Sangria', sub:'Glass / Bottle 0.75L', subPt:'Copo / Garrafa 0,75 L', items:[
+        { n:'Tinto / Branco', d:'Red / white', g:'€5', b:'€17' },
+        { n:'Espumante',      d:'Sparkling',   g:'€7', b:'€22' }
+      ]},
+      { sec:'Tinto / Red', sub:'Glass / Bottle 0.75L', subPt:'Copo / Garrafa 0,75 L', items:[
+        { n:'Casa / House',                                    g:'€4.50', b:'€15' },
+        { n:'Qta. Lagoalva Colheita', d:'Tejo', dPt:'Tejo',                 g:'€5',    b:'€17' },
+        { n:'Monte das Servas', d:'Alentejo', dPt:'Alentejo',                              b:'€18' },
+        { n:'Monte da Ravasqueira Syrah', d:'Alentejo', dPt:'Alentejo',         g:'€6',    b:'€19' },
+        { n:'Qta. Nova Unoaked', d:'Douro', dPt:'Douro',                                b:'€21' },
+        { n:'Qta. Carvalhais Colheita', d:'Dão', dPt:'Dão',                g:'€7',    b:'€22' },
+        { n:'Duas Quintas', d:'Douro', dPt:'Douro',                                     b:'€32' },
+        { n:'Esporão Reserva', d:'Alentejo', dPt:'Alentejo',                               b:'€36' },
+        { n:'Cartuxa', d:'Alentejo', dPt:'Alentejo',                                       b:'€47' },
+        { n:'Qta. Crasto Reserva Vinhas Velhas', d:'Douro', dPt:'Douro',                b:'€72' }
+      ]},
+      { sec:'Branco / White', sub:'Glass / Bottle 0.75L', subPt:'Copo / Garrafa 0,75 L', items:[
+        { n:'Casa / House',                                    g:'€4.50', b:'€15' },
+        { n:'Qta. Lagoalva Colheita', d:'Tejo', dPt:'Tejo',                 g:'€5',    b:'€17' },
+        { n:'Monte das Servas', d:'Alentejo', dPt:'Alentejo',                              b:'€18' },
+        { n:'Monte da Ravasqueira Sauvignon', d:'Alentejo', dPt:'Alentejo',     g:'€6',    b:'€19' },
+        { n:'Planalto', d:'Douro', dPt:'Douro',                              g:'€5',    b:'€20' },
+        { n:'Taboadella', d:'Dão', dPt:'Dão',                                         b:'€26' },
+        { n:'Duas Quintas', d:'Douro', dPt:'Douro',                                     b:'€30' },
+        { n:'Esporão Reserva', d:'Alentejo', dPt:'Alentejo',                               b:'€36' },
+        { n:'Cartuxa', d:'Alentejo', dPt:'Alentejo',                                       b:'€47' }
+      ]},
+      { sec:'Rosé', sub:'Bottle 0.75L', subPt:'Garrafa 0,75 L', items:[
+        { n:'Mateus', d:'Rosé', dPt:'Rosé',                    b:'€19' },
+        { n:'Qta. Lagoalva', d:'Tejo', dPt:'Tejo',             b:'€22' },
+        { n:'Qta. Nova', d:'Douro', dPt:'Douro',                b:'€34' }
+      ]},
+      { sec:'Verde / Green', sub:'Bottle 0.75L', subPt:'Garrafa 0,75 L', items:[
+        { n:'Aveleda Loureiro Alvarinho', d:'Minho', dPt:'Minho',   b:'€21' },
+        { n:'Alvarinho Deu La Deu', d:'Alvarinho', dPt:'Alvarinho',     b:'€26' }
+      ]},
+      { sec:'Espumante / Sparkling', sub:'Bottle 0.75L', subPt:'Garrafa 0,75 L', items:[
+        { n:'Murganheira Sup. Res. Bruto', b:'€37' }
+      ]},
+      { sec:'Vinho do Porto / Port Wine', items:[
+        { n:'Offley Tawny',        d:'Red or white', dPt:'Tinto ou branco',  p:'€4' },
+        { n:"Taylor's Chip Dry",                      p:'€6' },
+        { n:'Ferreira D. Antónia', d:'10 years', dPt:'10 anos',      p:'€9' }
+      ]},
+      { sec:'Gin', items:[
+        { n:"Gordon's",         p:'€7'  },
+        { n:'Bombay Sapphire',  p:'€8'  },
+        { n:'Bulldog',          p:'€10' },
+        { n:'Tanqueray Nº Ten', p:'€14' },
+        { n:"Hendrick's",       p:'€14' },
+        { n:'Monkey 47',        p:'€16' }
+      ]},
+      { sec:'Vodka', items:[
+        { n:'Absolut',    p:'€6'  },
+        { n:'Grey Goose', p:'€13' }
+      ]},
+      { sec:'Rum', items:[
+        { n:'Planteray 3 Stars',      p:'€8'  },
+        { n:'Diplomático Reserva',    p:'€12' }
+      ]},
+      { sec:'Tequila', items:[
+        { n:'José Cuervo Silver',   d:'100% agave', dPt:'100% agave', p:'€4'  },
+        { n:'Olmeca Altos Plata',   d:'100% agave', dPt:'100% agave', p:'€6'  },
+        { n:'1800 Reserva Añejo',   d:'100% agave', dPt:'100% agave', p:'€12' }
+      ]},
+      { sec:'Whiskey', items:[
+        { n:'J & B',              p:'€5'  },
+        { n:'J. Walker Red',      p:'€6'  },
+        { n:'Famous Grouse',      p:'€6'  },
+        { n:'Jameson',            p:'€7'  },
+        { n:"Jack Daniel's",      p:'€8'  },
+        { n:'J. Walker Black',    p:'€10' },
+        { n:'J & B',              d:'15 years', dPt:'15 anos', p:'€12' },
+        { n:'Glenfiddich',        d:'12 years', dPt:'12 anos', p:'€14' },
+        { n:'Cardhu Gold Reserve',p:'€14' }
+      ]},
+      { sec:'Aguardente / Brandy', items:[
+        { n:'Brandy Croft',            p:'€5'  },
+        { n:'Aguardente C.R.F.',       d:'Reserva', dPt:'Reserva',  p:'€7'  },
+        { n:'Rémy Martin V.S.O.P.',    d:'Cognac', dPt:'Cognac',   p:'€12' },
+        { n:'Hennessy V.S.',           d:'Cognac', dPt:'Cognac',   p:'€12' }
+      ]},
+      { sec:'Licores / Liqueurs', items:[
+        { n:'Licor Beirão',    p:'€4' },
+        { n:'Amarguinha',      p:'€5' },
+        { n:'Martini',         d:'Rosso or Bianco', dPt:'Rosso ou Bianco', p:'€5' },
+        { n:'Sambuca Antica',  p:'€5' },
+        { n:"Ginja d'Óbidos",  p:'€6' },
+        { n:'Malibu',          p:'€6' },
+        { n:'Baileys',         p:'€6' },
+        { n:'Limoncello',      p:'€6' },
+        { n:'Fernet Branca',   p:'€6' },
+        { n:'Campari',         p:'€7' },
+        { n:'Jägermeister',    p:'€7' },
+        { n:'Cointreau',       p:'€8' }
+      ]}
     ]
   };
 
   const TABS = [
     { k:'food',   en:'Food',   pt:'Cozinha' },
-    { k:'wine',   en:'Wine',   pt:'Vinhos'  },
-    { k:'drinks', en:'Drinks', pt:'Bar'     }
+    { k:'drinks', en:'Drinks', pt:'Bebidas' }
   ];
   const NOTES = {
-    food:   { en:'Kitchen — to share or as courses',   pt:'Cozinha — para partilhar ou em pratos' },
-    wine:   { en:'By the glass — all Portuguese',       pt:'A copo — todos portugueses' },
-    drinks: { en:'From the bar',                        pt:'Do bar' }
+    food:   { en:'To share, or enjoy as courses', pt:'Para partilhar ou como pratos' },
+    drinks: { en:'From the bar',                  pt:'Do bar' }
   };
 
   let currentTab = 'food';
+
+  function priceCell(m) {
+    if (m.p) return `<span class="oc-menu-item__price">${m.p}</span>`;
+    return `<span class="oc-menu-item__price oc-menu-item__price--pair">
+              <span>${m.g || '—'}</span><span>${m.b || '—'}</span>
+            </span>`;
+  }
 
   function renderMenus(lang) {
     // Tabs
@@ -130,16 +404,30 @@
     });
     // Note
     document.getElementById('menu-section-note').textContent = NOTES[currentTab][lang];
-    // List
-    document.getElementById('menu-list').innerHTML = MENUS[currentTab].map(m => `
-      <div class="oc-menu-item">
-        <div class="oc-menu-item__row">
-          <span class="oc-menu-item__name">${m.n}</span>
-          <span class="oc-menu-item__dot"></span>
-          <span class="oc-menu-item__price">${m.p}</span>
-        </div>
-        <div class="oc-menu-item__desc">${m.d[lang]}</div>
-      </div>`).join('');
+    // Grouped list
+    document.getElementById('menu-list').innerHTML = MENUS[currentTab].map(group => {
+      const sub = lang==='pt' ? (group.subPt || group.sub) : group.sub;
+      const items = group.items.map(m => {
+        const desc = lang==='pt' ? m.dPt : m.d;
+        return `
+        <div class="oc-menu-item">
+          <div class="oc-menu-item__row">
+            <span class="oc-menu-item__name">${m.n}</span>
+            <span class="oc-menu-item__dot"></span>
+            ${priceCell(m)}
+          </div>
+          ${desc ? `<div class="oc-menu-item__desc">${desc}</div>` : ''}
+        </div>`;
+      }).join('');
+      return `
+        <div class="oc-menu-group">
+          <div class="oc-menu-group__head">
+            <h3 class="oc-menu-group__title">${group.sec}</h3>
+            ${sub ? `<span class="oc-menu-group__sub">${sub}</span>` : ''}
+          </div>
+          ${items}
+        </div>`;
+    }).join('');
   }
 
   window.onLangChange = renderMenus;
