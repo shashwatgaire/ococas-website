@@ -47,6 +47,13 @@ if (!$name || !filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL) || !$pho
 
 $needsCall = $guests > CALL_THRESHOLD;
 
+// Address of the location the guest booked, used to sign off the confirmation
+$ADDRESSES = [
+    'O Cocas'    => 'R. dos Correeiros 177, 1100-571 Lisboa, Portugal',
+    'O Cocas II' => 'Rua da Prata 161, R. da Vitória 34, 1100-416 Lisboa, Portugal',
+];
+$locationAddress = $ADDRESSES[$location] ?? $ADDRESSES['O Cocas'];
+
 // ---- Build notification email (to restaurant + owner) ----
 $subjectTag = $needsCall ? 'CALL REQUIRED' : $ref;
 $subject = "[{$subjectTag}] New reservation — {$name} · {$location} · {$date} · {$slot}";
@@ -86,7 +93,7 @@ if ($needsCall) {
     $confirmBody .= "As your party is larger than " . CALL_THRESHOLD . ", our team will call you at {$phone} shortly to confirm your table.\n\n";
     $confirmBody .= "We look forward to welcoming you.\n\n";
     $confirmBody .= "— The team at O Cocas\n";
-    $confirmBody .= "R. dos Correeiros 177, 1100-571 Lisboa, Portugal\n";
+    $confirmBody .= "{$locationAddress}\n";
 } else {
     $confirmSubject = "Your reservation at O Cocas — {$ref}";
     $confirmBody = "Dear {$name},\n\n";
@@ -100,7 +107,7 @@ if ($needsCall) {
     $confirmBody .= "please call us at +351 920 038 770 or reply to this email.\n\n";
     $confirmBody .= "We look forward to welcoming you.\n\n";
     $confirmBody .= "— The team at O Cocas\n";
-    $confirmBody .= "R. dos Correeiros 177, 1100-571 Lisboa, Portugal\n";
+    $confirmBody .= "{$locationAddress}\n";
 }
 
 $confirmHeaders  = "From: " . SITE_NAME . " <" . FROM_EMAIL . ">\r\n";
